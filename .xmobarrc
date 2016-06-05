@@ -1,0 +1,28 @@
+Config { font = "xft:Source Code Pro:size=9:Bold"
+       , iconRoot = "/home/pablo/.xmobar.d/icons"
+       , alpha = 255
+       , allDesktops = True
+       , border = NoBorder
+       , borderColor = ""
+       , borderWidth = 0
+       , bgColor = "#49483E"
+       , fgColor = "#a59f85"
+       , overrideRedirect = True
+       , pickBroadest = True
+       , hideOnStart = False
+       , lowerOnStart = False
+       , persistent = False
+       , position = Top
+       , commands = [ Run StdinReader
+                    , Run Date "<fc=#cc6633><icon=clock.xbm/></fc> %b %d %H:%M" "date" 10
+                    , Run Weather "SBPK" ["-t","<fc=#cc6633><icon=temp.xbm/></fc> <tempC>ºC"] 3600
+                    , Run MultiCpu ["-t","<fc=#cc6633><icon=cpu.xbm/></fc> <total0>% <total1>% <total2>% <total3>%","-L","3","-H","50","--high","#cc6633"] 10
+                    , Run Memory ["-t","<fc=#cc6633><icon=mem.xbm/></fc> <usedratio>%"] 10
+                    , Run Wireless "wlp2s0" ["-t","<fc=#cc6633><icon=wifi_02.xbm/></fc> <quality>% <essid>"] 50
+
+
+                    ]
+       , sepChar = "%"
+       , alignSep = "}{"
+       , template = "%StdinReader%}%date% %SBPK%{%multicpu% %memory% %wlp2s0wi% <fc=#66d9ef><icon=arch.xbm/></fc> "
+}
