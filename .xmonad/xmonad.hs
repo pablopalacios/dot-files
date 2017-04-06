@@ -9,7 +9,7 @@ import System.Exit
 import Text.Printf
 
 import qualified XMonad.StackSet as W
-import qualified Data.Map        as M
+import qualified Data.Map as M
 
 
 -- Theme
@@ -62,6 +62,12 @@ myKeys conf@(XConfig {XMonad.modMask = modm}) = M.fromList $
 
     -- launch menu
     , ((modm, xK_p), spawn myMenu)
+
+    -- lock screen
+    , ((modm, xK_F12), spawn "slock & (sleep 1 && xset dpms force standby)")
+
+    -- lock screen
+    , ((modm, xK_g), spawn "emacsclient -c")
 
     -- close focused window
     , ((modm .|. shiftMask, xK_c), kill)
@@ -155,7 +161,7 @@ myClickJustFocuses :: Bool
 myClickJustFocuses = False
 
 -- Layouts:
-myLayout = tiled ||| Mirror tiled ||| noBorders Full
+myLayout = tiled ||| Mirror tiled ||| smartBorders Full
   where
      -- default tiling algorithm partitions the screen into two panes
      tiled   = Tall nmaster delta ratio
@@ -170,6 +176,7 @@ myLayout = tiled ||| Mirror tiled ||| noBorders Full
 myManageHook = composeAll
     [ className =? "Emacs"              --> doF (W.shift wsCode)
     , className =? "Firefox"            --> doF (W.shift wsWeb)
+    , className =? "Chromium"           --> doF (W.shift wsWeb)
     , className =? "libreoffice-writer" --> doF (W.shift wsDocs)
     , className =? "libreoffice-calc"   --> doF (W.shift wsDocs)
     , className =? "Evince"             --> doF (W.shift wsDocs)
@@ -189,6 +196,7 @@ myStartupHook = return ()
 
 -- Xmobar
 myBar = "xmobar"
+toggleStrutsKey XConfig {XMonad.modMask = modMask} = (modMask, xK_b)
 myPP = PP { ppCurrent = xmobarColor color0F ""
           , ppVisible = wrap "<" ">"
           , ppHidden = xmobarColor color03 ""
@@ -204,7 +212,6 @@ myPP = PP { ppCurrent = xmobarColor color0F ""
           , ppSort = getSortByIndex
           , ppExtras = []
           }
-toggleStrutsKey XConfig {XMonad.modMask = modMask} = (modMask, xK_b)
 
 -- Xmonad
 defaults = def {
