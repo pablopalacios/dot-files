@@ -19,13 +19,14 @@ Config {
        iconRoot = ".",
        commands = [
                 Run Date "<fc=#cc6633></fc> %b %d %H:%M" "date" 600,
+                Run DynNetwork ["-t", "<fc=#cc6633></fc> <rx> <fc=#cc6633></fc> <tx>", "-S", "True"] 25,
                 Run Memory ["-t","<fc=#cc6633></fc> <usedratio>%"] 25,
-                Run MultiCpu ["-t","<fc=#cc6633></fc> <total0>% <total1>% <total2>% <total3>%"] 25,
+                Run MultiCpu ["-t","<fc=#cc6633></fc> <total0>% <total1>%"] 25,
                 Run StdinReader,
                 Run Weather "SBPK" ["-t","<fc=#cc6633></fc> <tempC>ºC", "-S", "Yes"] 10,
                 Run Wireless "wlan0" ["-t","<fc=#cc6633></fc> <quality>% <essid>"] 100
        ],
        sepChar = "%",
        alignSep = "}{",
-       template = " %StdinReader%}%date% %SBPK%{%memory% %multicpu% %wlan0wi% "
+       template = " %StdinReader%}%date% %SBPK%{%dynnetwork% %memory% %multicpu% "
 }
