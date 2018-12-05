@@ -1,32 +1,14 @@
 Config {
-       font = "xft:Source Code Pro:size=9:Bold,FontAwesome:size=9",
-       additionalFonts = [],
-       bgColor = "#49483E",
-       fgColor = "#a59f85",
-       alpha = 255,
-       position = Top,
-       textOffset = 14,
-       iconOffset = -1,
        lowerOnStart = False,
        hideOnStart = False,
-       allDesktops = False,
-       overrideRedirect = True,
-       pickBroadest = True,
-       persistent = False,
-       border = NoBorder,
-       borderColor = "",
-       borderWidth = -1,
-       iconRoot = ".",
        commands = [
-                Run Date "<fc=#cc6633></fc> %b %d %H:%M" "date" 600,
-                Run DynNetwork ["-t", "<fc=#cc6633></fc> <rx> <fc=#cc6633></fc> <tx>", "-S", "True"] 25,
-                Run Memory ["-t","<fc=#cc6633></fc> <usedratio>%"] 25,
-                Run MultiCpu ["-t","<fc=#cc6633></fc> <total0>% <total1>%"] 25,
+                Run Date "%b %d %H:%M" "date" 600,
+                Run DynNetwork ["-t", "<fc=#cc6633>up</fc> <rx> <fc=#cc6633>down</fc> <tx>", "-S", "True"] 25,
+                Run Memory ["-t","<fc=#cc6633>mem</fc> <usedratio>%"] 25,
+                Run MultiCpu ["-t","<fc=#cc6633>cpu</fc> <total0>% <total1>% <total2>% <total3>%"] 25,
                 Run StdinReader,
-                Run Weather "SBPK" ["-t","<fc=#cc6633></fc> <tempC>ºC", "-S", "Yes"] 10,
-                Run Wireless "wlan0" ["-t","<fc=#cc6633></fc> <quality>% <essid>"] 100
+                Run Weather "SBPK" ["-t","<tempC>ºC <fc=#cc6633><skyCondition></fc>", "-S", "Yes"] 10,
+                Run Wireless "wlp3s0" ["-t", "<fc=#cc6633><essid></fc>"] 25
        ],
-       sepChar = "%",
-       alignSep = "}{",
-       template = " %StdinReader%}%date% %SBPK%{%dynnetwork% %memory% %multicpu% "
+       template = " %StdinReader%}%SBPK% %date%{%dynnetwork% %memory% %multicpu% %wlp3s0wi%"
 }
