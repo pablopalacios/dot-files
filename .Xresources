@@ -54,6 +54,6 @@
 URxvt*termName:                       rxvt
 URxvt*scrollBar:                      false
 URxvt*font:                           xft:Source Code Pro:size=12
-URxvt*boldFont:                       xft:Source Code Pro:Bold
-URxvt*italicFont:                     xft:Source Code Pro:Italic
-URxvt*letterSpace:                    -1
+URxvt*letterSpace: -1
+URxvt*scrollTtyOutput: false
+URxvt*scrollTtyKeypress: true
