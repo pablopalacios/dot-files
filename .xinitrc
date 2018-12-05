@@ -1,8 +1,7 @@
-firefox &
-sh ~/.fehbg &
 xrdb -merge -I$HOME ~/.Xresources
-urxvt &
-zeal &
-emacs --daemon &
-thunderbird &
+bash ~/.screenlayout/big.sh
+exec urxvt &
+exec firefox &
+exec zeal &
+exec thunderbird &
 exec dbus-launch xmonad
