@@ -1,8 +1,0 @@
-xrdb ~/.Xresources &
-setxkbmap br -option ctrl:swapcaps &
-
-touchpad='SynPS/2 Synaptics TouchPad'
-xinput --set-prop "$touchpad" 275 0 &  # horizontal scrolling
-xinput --set-prop "$touchpad" 286 1 &   # click on tap
-
-exec dbus-launch xmonad
