@@ -9,7 +9,7 @@ import System.Exit
 import Text.Printf
 
 import qualified XMonad.StackSet as W
-import qualified Data.Map as M
+import qualified Data.Map        as M
 
 
 -- Theme
@@ -31,20 +31,20 @@ color0D = "#66d9ef"
 color0E = "#ae81ff"
 color0F = "#cc6633"
 
--- Programs
+-- Programas
 myTerminal = "urxvt"
 
 dmenu_cmd = "dmenu_run -nb '%s' -nf '%s' -sb '%s' -fn '%s'"
 myMenu = printf dmenu_cmd color02 color04 color0F font
 
 -- Workspaces
-wsTerm = "\xf120"
-wsCode = "\xf121"
-wsWeb = "\xf269"
-wsDocs = "\xf07b"
-wsMail = "\xf0e0"
-wsMusic = "\xf001"
-wsMisc = "\xf00a"
+wsTerm = "1"
+wsCode = "2"
+wsWeb = "3"
+wsDocs = "4"
+wsMail = "5"
+wsMusic = "6"
+wsMisc = "7"
 
 myWorkspaces = [wsTerm, wsCode, wsWeb, wsDocs, wsMail, wsMusic, wsMisc]
 
@@ -62,12 +62,6 @@ myKeys conf@(XConfig {XMonad.modMask = modm}) = M.fromList $
 
     -- launch menu
     , ((modm, xK_p), spawn myMenu)
-
-    -- lock screen
-    , ((modm, xK_F12), spawn "slock & (sleep 1 && xset dpms force standby)")
-
-    -- lock screen
-    , ((modm, xK_g), spawn "emacsclient -c")
 
     -- close focused window
     , ((modm .|. shiftMask, xK_c), kill)
@@ -139,7 +133,7 @@ myKeys conf@(XConfig {XMonad.modMask = modm}) = M.fromList $
 
     -- Screens
     [((m .|. modm, key), screenWorkspace sc >>= flip whenJust (windows . f))
-        | (key, sc) <- zip [xK_w, xK_e, xK_r] [0..]
+        | (key, sc) <- zip [xK_e, xK_w, xK_r] [0..]
         , (f, m) <- [(W.view, 0), (W.shift, shiftMask)]]
 
 -- Mouse bindings
@@ -161,7 +155,7 @@ myClickJustFocuses :: Bool
 myClickJustFocuses = False
 
 -- Layouts:
-myLayout = tiled ||| Mirror tiled ||| smartBorders Full
+myLayout = tiled ||| Mirror tiled ||| noBorders Full
   where
      -- default tiling algorithm partitions the screen into two panes
      tiled   = Tall nmaster delta ratio
@@ -175,12 +169,12 @@ myLayout = tiled ||| Mirror tiled ||| smartBorders Full
 -- Window rules
 myManageHook = composeAll
     [ className =? "Emacs"              --> doF (W.shift wsCode)
-    , className =? "Firefox"            --> doF (W.shift wsWeb)
     , className =? "Chromium"           --> doF (W.shift wsWeb)
+    , className =? "firefox"            --> doF (W.shift wsWeb)
     , className =? "libreoffice-writer" --> doF (W.shift wsDocs)
     , className =? "libreoffice-calc"   --> doF (W.shift wsDocs)
     , className =? "Evince"             --> doF (W.shift wsDocs)
-    , className =? "Nautilus"           --> doF (W.shift wsDocs)
+    , className =? "Org.gnome.Nautilus" --> doF (W.shift wsDocs)
     , className =? "Zeal"               --> doF (W.shift wsDocs)
     , className =? "Thunderbird"        --> doF (W.shift wsMail)
     ]
@@ -196,7 +190,6 @@ myStartupHook = return ()
 
 -- Xmobar
 myBar = "xmobar"
-toggleStrutsKey XConfig {XMonad.modMask = modMask} = (modMask, xK_b)
 myPP = PP { ppCurrent = xmobarColor color0F ""
           , ppVisible = wrap "<" ">"
           , ppHidden = xmobarColor color03 ""
@@ -212,6 +205,7 @@ myPP = PP { ppCurrent = xmobarColor color0F ""
           , ppSort = getSortByIndex
           , ppExtras = []
           }
+toggleStrutsKey XConfig {XMonad.modMask = modMask} = (modMask, xK_b)
 
 -- Xmonad
 defaults = def {
