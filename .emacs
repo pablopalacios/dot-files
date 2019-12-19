@@ -23,15 +23,47 @@
 
 (setq use-package-always-ensure t)
 
-(use-package add-node-modules-path)
-(use-package anaconda-mode)
-(use-package blacken)
 (use-package dockerfile-mode)
 (use-package haskell-mode)
-(use-package isortify)
-(use-package prettier-js)
-(use-package tern)
+(use-package yaml-mode)
 (use-package yasnippet-snippets)
+
+(use-package add-node-modules-path
+  :hook web-mode)
+
+(use-package anaconda-mode
+  :hook ((python-mode . anaconda-eldoc-mode)
+         (python-mode . anaconda-mode)))
+
+(use-package blacken
+  :hook (python-mode . blacken-mode))
+
+(use-package company
+  :config
+  (global-company-mode 1)
+  :custom
+  (company-idle-delay 0.1)
+  (company-minimum-prefix-length 1))
+
+(use-package company-anaconda
+  :config
+  (push 'company-anaconda company-backends))
+
+(use-package company-tern
+  :config
+  (push 'company-tern company-backends))
+
+(use-package flx-ido
+  :init
+  (ido-mode 1)
+  (flx-ido-mode 1)
+  :custom
+  (ido-everywhere t)
+  (ido-enable-flex-matching t)
+  (ido-use-faces nil))
+
+(use-package isortify
+  :hook (python-mode . isortify-mode))
 
 (use-package magit
   :bind ("C-x g" . magit-status)
@@ -41,58 +73,23 @@
   (magit-repository-directories (quote (("~/projects" . 1))))
   (magit-submodule-arguments nil))
 
-(use-package smex
-  :bind ("M-x" . smex))
+(use-package prettier-js
+  :hook ((yaml-mode . prettier-js-mode)
+         (web-mode . prettier-js-mode)))
 
 (use-package projectile
   :config
   (define-key projectile-mode-map (kbd "C-c p") 'projectile-command-map)
   (projectile-mode +1))
 
-(use-package flx-ido
-  :config
-  (ido-mode 1)
-  (ido-everywhere 1)
-  (flx-ido-mode 1)
-  :custom
-  (ido-enable-flex-matching t)
-  (ido-use-faces nil))
+(use-package smex
+  :bind ("M-x" . smex))
 
-(use-package company
-  :config
-  (global-company-mode 1)
-  :custom
-  (company-idle-delay 0.1)
-  (company-minimum-prefix-length 1))
-
-(use-package company-tern
-  :config
-  (push 'company-tern company-backends))
-
-(use-package company-anaconda
-  :config
-  (push 'company-anaconda company-backends))
-
-(use-package yasnippet
-  :config
-  (yas-global-mode 1))
-
-(use-package yaml-mode
-  :init
-  (add-hook 'yaml-mode-hook 'prettier-js-mode))
-
-(use-package python
-  :init
-  (add-hook 'python-mode-hook 'anaconda-eldoc-mode)
-  (add-hook 'python-mode-hook 'anaconda-mode)
-  (add-hook 'python-mode-hook 'blacken-mode)
-  (add-hook 'python-mode-hook 'isortify-mode))
+(use-package tern
+  :hook (web-mode . tern-mode))
 
 (use-package web-mode
   :init
-  (add-hook 'web-mode-hook 'add-node-modules-path)
-  (add-hook 'web-mode-hook 'prettier-js-mode)
-  (add-hook 'web-mode-hook 'tern-mode)
   (add-to-list 'auto-mode-alist '("\\.html?\\'" . web-mode))
   (add-to-list 'auto-mode-alist '("\\.js[x]?\\'" . web-mode))
   :custom
@@ -101,8 +98,11 @@
   (web-mode-markup-indent-offset 2)
   (web-mode-content-types-alist '(("jsx" . "\\.js[x]?\\'")))
   (web-mode-enable-current-element-highlight t)
-  (web-mode-engines-alist '(("django" . "\\.html\\'")))
-  )
+  (web-mode-engines-alist '(("django" . "\\.html\\'"))))
+
+(use-package yasnippet
+  :config
+  (yas-global-mode 1))
 
 (custom-set-variables
  '(package-selected-packages
