@@ -1,121 +1,113 @@
-;; Basics
 (blink-cursor-mode 0)
 (column-number-mode t)
 (menu-bar-mode 0)
 (scroll-bar-mode 0)
 (show-paren-mode t)
-(tooltip-mode 0)
 (tool-bar-mode 0)
-(put 'upcase-region 'disabled nil)
+(tooltip-mode 0)
+
 (put 'downcase-region 'disabled nil)
+(put 'upcase-region 'disabled nil)
 
-;; spaces instead of tabs
-(setq-default indent-tabs-mode nil)
-
-;; remove trailing spaces before save
 (add-hook 'before-save-hook 'delete-trailing-whitespace)
 
-;; helpers
-(defun enable-minor-mode (my-pair)
-  (if (buffer-file-name)
-      (if (string-match (car my-pair) buffer-file-name)
-          (funcall (cdr my-pair)))))
+(setq-default indent-tabs-mode nil)
 
-;; melpa
+(setq gc-cons-threshold 20000000)
+
 (require 'package)
 (add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/"))
 (package-initialize)
 
-;; ido
-(require 'flx-ido)
-(ido-mode 1)
-(ido-everywhere 1)
-(flx-ido-mode 1)
-;; disable ido faces to see flx highlights.
-(setq ido-enable-flex-matching t)
-(setq ido-use-faces nil)
+(eval-when-compile (require 'use-package))
 
-;; smex
-(require 'smex)
-(global-set-key (kbd "M-x") 'smex)
-(global-set-key (kbd "M-X") 'smex-major-mode-commands)
+(setq use-package-always-ensure t)
 
-;; Magit
-(global-set-key (kbd "C-x g") 'magit-status)
-(with-eval-after-load 'transient
-  (transient-bind-q-to-quit))
+(use-package add-node-modules-path)
+(use-package anaconda-mode)
+(use-package blacken)
+(use-package dockerfile-mode)
+(use-package haskell-mode)
+(use-package isortify)
+(use-package prettier-js)
+(use-package tern)
+(use-package yasnippet-snippets)
 
-;; Projectile
-(projectile-global-mode)
-(define-key projectile-mode-map (kbd "C-c p") 'projectile-command-map)
+(use-package magit
+  :bind ("C-x g" . magit-status)
+  :custom
+  (initial-buffer-choice (quote magit-list-repositories))
+  (magit-pull-arguments nil)
+  (magit-repository-directories (quote (("~/projects" . 1))))
+  (magit-submodule-arguments nil))
 
-;; Company
-(require 'company)
+(use-package smex
+  :bind ("M-x" . smex))
 
-;; web-mode
-(require 'web-mode)
-(require 'prettier-js)
-(eval-after-load 'web-mode
-    '(progn
-       (add-hook 'web-mode-hook #'add-node-modules-path)
-       (add-hook 'web-mode-hook #'(lambda () (enable-minor-mode '("\\.js[x]?\\'" . prettier-js-mode))))))
-(add-to-list 'auto-mode-alist '("\\.html?\\'" . web-mode))
-(add-to-list 'auto-mode-alist '("\\.js[x]?\\'" . web-mode))
-(setq web-mode-engines-alist '(("django" . "\\.html\\'")))
-(setq web-mode-content-types-alist '(("jsx" . "\\.js[x]?\\'")))
-(setq web-mode-enable-current-element-highlight t)
-(defun custom-web-mode-hook ()
-  (setq web-mode-markup-indent-offset 2)
-  (setq web-mode-code-indent-offset 2)
-  (setq web-mode-attr-indent-offset 2))
-(add-hook 'web-mode-hook 'custom-web-mode-hook)
-(add-hook 'web-mode-hook 'company-mode)
-(add-hook 'web-mode-hook 'tern-mode)
-(add-to-list 'company-backends 'company-tern)
+(use-package projectile
+  :config
+  (define-key projectile-mode-map (kbd "C-c p") 'projectile-command-map)
+  (projectile-mode +1))
 
-;; Python
-(require 'python)
-(add-hook 'python-mode-hook 'yas-minor-mode)
-(add-hook 'python-mode-hook 'company-mode)
-(add-hook 'python-mode-hook 'anaconda-mode)
-(add-hook 'python-mode-hook 'anaconda-eldoc-mode)
-(add-hook 'python-mode-hook 'isortify-mode)
-(add-hook 'python-mode-hook 'blacken-mode)
-(add-to-list 'python-shell-extra-pythonpaths "~/projects/bluepoint")
-(add-to-list 'company-backends 'company-anaconda)
+(use-package flx-ido
+  :config
+  (ido-mode 1)
+  (ido-everywhere 1)
+  (flx-ido-mode 1)
+  :custom
+  (ido-enable-flex-matching t)
+  (ido-use-faces nil))
 
-;; Yasnippet
-(require 'yasnippet)
-(yas-reload-all)
+(use-package company
+  :config
+  (global-company-mode 1)
+  :custom
+  (company-idle-delay 0.1)
+  (company-minimum-prefix-length 1))
 
-;; React
-(defun component-name()
-  (interactive)
-  (insert (car (split-string (buffer-name) "\\."))))
+(use-package company-tern
+  :config
+  (push 'company-tern company-backends))
+
+(use-package company-anaconda
+  :config
+  (push 'company-anaconda company-backends))
+
+(use-package yasnippet
+  :config
+  (yas-global-mode 1))
+
+(use-package yaml-mode
+  :init
+  (add-hook 'yaml-mode-hook 'prettier-js-mode))
+
+(use-package python
+  :init
+  (add-hook 'python-mode-hook 'anaconda-eldoc-mode)
+  (add-hook 'python-mode-hook 'anaconda-mode)
+  (add-hook 'python-mode-hook 'blacken-mode)
+  (add-hook 'python-mode-hook 'isortify-mode))
+
+(use-package web-mode
+  :init
+  (add-hook 'web-mode-hook 'add-node-modules-path)
+  (add-hook 'web-mode-hook 'prettier-js-mode)
+  (add-hook 'web-mode-hook 'tern-mode)
+  (add-to-list 'auto-mode-alist '("\\.html?\\'" . web-mode))
+  (add-to-list 'auto-mode-alist '("\\.js[x]?\\'" . web-mode))
+  :custom
+  (web-mode-attr-indent-offset 2)
+  (web-mode-code-indent-offset 2)
+  (web-mode-markup-indent-offset 2)
+  (web-mode-content-types-alist '(("jsx" . "\\.js[x]?\\'")))
+  (web-mode-enable-current-element-highlight t)
+  (web-mode-engines-alist '(("django" . "\\.html\\'")))
+  )
 
 (custom-set-variables
- ;; custom-set-variables was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- '(ansi-color-faces-vector
-   [default default default italic underline success warning error])
- '(company-idle-delay 0.1)
- '(custom-enabled-themes (quote (adwaita)))
- '(elpy-modules
-   (quote
-    (elpy-module-company elpy-module-eldoc elpy-module-pyvenv elpy-module-yasnippet elpy-module-django elpy-module-sane-defaults)))
- '(initial-buffer-choice (quote magit-list-repositories))
- '(js-indent-level 2)
- '(magit-pull-arguments nil)
- '(magit-repository-directories (quote (("~/projects" . 1))))
- '(magit-submodule-arguments nil)
  '(package-selected-packages
    (quote
-    (isortify haskell-mode blacken company-anaconda anaconda-mode add-node-modules-path base16-theme elpy prettier-js markdown-mode php-mode dockerfile-mode yaml-mode yasnippet-snippets projectile smex yasnippet company company-tern magit tern web-mode))))
-(custom-set-faces
- ;; custom-set-faces was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- )
+    (web-mode yasnippet-snippets dockerfile-mode prettier-js
+    prettier-js-mode yaml-mode company-anaconda company-tern
+    company flx-ido projectile use-package smex magit))))
+(custom-set-faces)
