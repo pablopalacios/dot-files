@@ -67,6 +67,8 @@
 
 (use-package magit
   :bind ("C-x g" . magit-status)
+  :init
+  (with-eval-after-load 'transient (transient-bind-q-to-quit))
   :custom
   (initial-buffer-choice (quote magit-list-repositories))
   (magit-pull-arguments nil)
