@@ -1,0 +1,6 @@
+xrdb -merge -I$HOME ~/.Xresources
+bash ~/.screenlayout/1monitor.sh &
+urxvt &
+zeal &
+thunderbird &
+firefox &
