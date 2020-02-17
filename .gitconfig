@@ -1,0 +1,6 @@
+[user]
+	email = 'myemail@email.com'
+	name = Pablo Palacios
+[grep]
+	column = true
+	lineNumber = true
