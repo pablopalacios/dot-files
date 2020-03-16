@@ -4,3 +4,7 @@
 [grep]
 	column = true
 	lineNumber = true
+[pull]
+	rebase = true
+[remote]
+	pushDefault = origin
