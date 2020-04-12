@@ -46,8 +46,11 @@ myConfig = ewmh def{ borderWidth = 3
                    , workspaces = [wsTerm, wsCode, wsWeb, wsDocs, wsMail, wsMusic, wsMisc]
                    }
            `additionalKeysP`
-           [ ("<XF86MonBrightnessDown>", spawn "xbacklight -dec 5")
-           , ("<XF86MonBrightnessUp>", spawn "xbacklight -inc 5")
+           [ ("<XF86MonBrightnessDown>", spawn "xbacklight -dec 3")
+           , ("<XF86MonBrightnessUp>", spawn "xbacklight -inc 3")
+           , ("<XF86AudioLowerVolume>", spawn "pactl set-sink-volume @DEFAULT_SINK@ -10%")
+           , ("<XF86AudioRaiseVolume>", spawn "pactl set-sink-volume @DEFAULT_SINK@ +10%")
+           , ("<XF86AudioMute>", spawn "pactl set-sink-mute @DEFAULT_SINK@ toggle")
            ]
 
 main = xmonad =<< xmobar myConfig
