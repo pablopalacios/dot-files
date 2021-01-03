@@ -1,0 +1,12 @@
+[Trigger]
+Type = Package
+Operation = Install
+Operation = Upgrade
+Operation = Remove
+Target = haskell*
+Target = xmonad*
+
+[Action]
+Description = Recompiling Xmonad...
+When = PostTransaction
+Exec = /usr/bin/sudo -u ppalacios xmonad --recompile
