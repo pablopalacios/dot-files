@@ -1,6 +1,7 @@
 import XMonad
 import XMonad.Hooks.DynamicLog
 import XMonad.Hooks.EwmhDesktops
+import XMonad.Hooks.ManageHelpers
 import XMonad.Layout.NoBorders
 import qualified XMonad.StackSet as W
 import XMonad.Util.EZConfig (additionalKeysP)
@@ -46,11 +47,12 @@ myConfig = ewmh def{ borderWidth = 3
                    , workspaces = [wsTerm, wsCode, wsWeb, wsDocs, wsMail, wsMusic, wsMisc]
                    }
            `additionalKeysP`
-           [ ("<XF86MonBrightnessDown>", spawn "xbacklight -dec 3")
-           , ("<XF86MonBrightnessUp>", spawn "xbacklight -inc 3")
-           , ("<XF86AudioLowerVolume>", spawn "pactl set-sink-volume @DEFAULT_SINK@ -10%")
-           , ("<XF86AudioRaiseVolume>", spawn "pactl set-sink-volume @DEFAULT_SINK@ +10%")
-           , ("<XF86AudioMute>", spawn "pactl set-sink-mute @DEFAULT_SINK@ toggle")
+           [ ("<XF86MonBrightnessDown>", spawn "brightnessctl -d intel_backlight set 3%-")
+           , ("<XF86MonBrightnessUp>", spawn "brightnessctl -d intel_backlight set +3%")
+           , ("<XF86AudioLowerVolume>", spawn "pamixer -d 10")
+           , ("<XF86AudioRaiseVolume>", spawn "pamixer -i 10")
+           , ("<XF86AudioMute>", spawn "pamixer -t")
+           , ("<XF86Display>", spawn "autorandr -c")
            ]
 
 main = xmonad =<< xmobar myConfig
