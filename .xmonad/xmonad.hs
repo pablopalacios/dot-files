@@ -34,20 +34,21 @@ myLayoutHook = smartBorders $ Mirror tiled ||| tiled ||| Full
     ratio   = 3/5
     delta   = 3/100
 
-myConfig = ewmh def{ borderWidth = 3
-                   , clickJustFocuses = False
-                   , focusFollowsMouse = False
-                   , focusedBorderColor = "#CC6633"
-                   , handleEventHook = handleEventHook def <+> fullscreenEventHook
-                   , layoutHook = myLayoutHook
-                   , manageHook = manageHook def <+> myManageHook
-                   , modMask = mod4Mask
-                   , normalBorderColor = "#383830"
-                   , terminal = "termite"
-                   , workspaces = [wsTerm, wsCode, wsWeb, wsDocs, wsMail, wsMusic, wsMisc]
-                   }
+myConfig = ewmh def { borderWidth = 3
+                    , clickJustFocuses = False
+                    , focusFollowsMouse = False
+                    , focusedBorderColor = "#f92672"
+                    , handleEventHook = handleEventHook def <+> fullscreenEventHook
+                    , layoutHook = myLayoutHook
+                    , manageHook = manageHook def <+> myManageHook
+                    , modMask = mod4Mask
+                    , normalBorderColor = "#383830"
+                    , terminal = "termite"
+                    , workspaces = [wsTerm, wsCode, wsWeb, wsDocs, wsMail, wsMusic, wsMisc]
+                    }
            `additionalKeysP`
-           [ ("<XF86MonBrightnessDown>", spawn "brightnessctl -d intel_backlight set 3%-")
+           [ ("M-p", spawn "dmenu_run -fn 'monospace-9' -nb '#272822' -nf '#f8f8f2' -sb '#f92672' -sf '#f8f8f2'")
+           , ("<XF86MonBrightnessDown>", spawn "brightnessctl -d intel_backlight set 3%-")
            , ("<XF86MonBrightnessUp>", spawn "brightnessctl -d intel_backlight set +3%")
            , ("<XF86AudioLowerVolume>", spawn "pamixer -d 10")
            , ("<XF86AudioRaiseVolume>", spawn "pamixer -i 10")
