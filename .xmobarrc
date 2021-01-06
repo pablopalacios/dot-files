@@ -1,14 +1,16 @@
-Config {
-       lowerOnStart = False,
-       hideOnStart = False,
-       commands = [
-                Run Date "%b %d %H:%M" "date" 600,
-                Run DynNetwork ["-t", "<fc=#cc6633>up</fc> <rx> <fc=#cc6633>down</fc> <tx>", "-S", "True"] 25,
-                Run Memory ["-t","<fc=#cc6633>mem</fc> <usedratio>%"] 25,
-                Run MultiCpu ["-t","<fc=#cc6633>cpu</fc> <total0>% <total1>% <total2>% <total3>%"] 25,
-                Run StdinReader,
-                Run Weather "SBPK" ["-t","<tempC>ºC <fc=#cc6633><skyCondition></fc>", "-S", "Yes"] 10,
-                Run Wireless "wlp3s0" ["-t", "<fc=#cc6633><essid></fc>"] 25
-       ],
-       template = " %StdinReader%}%SBPK% %date%{%dynnetwork% %memory% %multicpu% %wlp3s0wi%"
+Config { allDesktops = True
+       , bgColor = "#272822"
+       , fgColor = "#f8f8f2"
+       , font = "xft:monospace-9"
+       , lowerOnStart = False
+       , hideOnStart = False
+       , commands = [ Run Date "%b %d %H:%M" "date" 200
+                    , Run DynNetwork ["-t", "<fc=#f92672>up</fc> <tx> <fc=#f92672>down</fc> <rx>", "-S", "True"] 25
+                    , Run Memory ["-t","<fc=#f92672>mem</fc> <usedratio>%"] 25
+                    , Run MultiCpu ["-c", "0", "-m", "2", "-t","<fc=#f92672>cpu</fc> <total0>% <total1>% <total2>% <total3>%"] 25
+                    , Run StdinReader
+                    , Run Wireless "wlp3s0" ["-t", "<fc=#f92672><essid></fc>"] 25
+                    , Run Weather "EDDM" ["-t", "<tempC>°C <windKmh>km/h <skyCondition>"] 12000
+                    ]
+       , template = " %StdinReader%}%date% | %EDDM%{%dynnetwork% %memory% %multicpu% %wlp3s0wi% "
 }
