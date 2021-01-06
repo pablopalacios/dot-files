@@ -1,7 +1,7 @@
 xrdb -merge -I$HOME ~/.Xresources
-bash ~/.screenlayout/big.sh
-exec urxvt &
+exec autorandr -c &
 exec firefox &
-exec zeal &
 exec thunderbird &
-exec dbus-launch xmonad
+exec termite &
+exec zeal &
+exec xmonad
