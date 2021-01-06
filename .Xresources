@@ -48,23 +48,3 @@
 *.color19:      base00
 *.color20:      base04
 *.color21:      base06
-
-URxvt.termName: rxvt
-URxvt.perl-ext: matcher,selection,selection-to-clipboard
-URxvt.print-pipe: cat > $(TMPDIR=$HOME mktemp urxvt.XXXXXX)
-
-URxvt.font: -misc-tamsyn-medium-*-*-*-14-*-*-*-*-*-*-*
-URxvt.boldFont: -misc-tamsyn-bold-*-*-*-14-*-*-*-*-*-*-*
-URxvt.letterSpace: 0
-URxvt.lineSpace: 2
-
-URxvt.scrollBar: false
-URxvt.scrollTtyKeypress: true
-URxvt.scrollTtyOutput: false
-URxvt.scrollWithBuffer: true
-
-URxvt.iso14755: false
-URxvt.iso14755_52: false
-
-URxvt.url-launcher: firefox
-URxvt.matcher.button: 1
