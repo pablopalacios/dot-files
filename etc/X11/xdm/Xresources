@@ -1,0 +1,58 @@
+! Base16 Monokai
+! Scheme: Wimer Hazenberg (http://www.monokai.nl)
+
+#define base00 #272822
+#define base01 #383830
+#define base02 #49483e
+#define base03 #75715e
+#define base04 #a59f85
+#define base05 #f8f8f2
+#define base06 #f5f4f1
+#define base07 #f9f8f5
+#define base08 #f92672
+#define base09 #fd971f
+#define base0A #f4bf75
+#define base0B #a6e22e
+#define base0C #a1efe4
+#define base0D #66d9ef
+#define base0E #ae81ff
+#define base0F #cc6633
+
+Xcursor.theme: Adwaita
+
+
+xlogin*login.translations: #override \
+	Ctrl<Key>R: abort-display()\n\
+	<Key>F1: set-session-argument(failsafe) finish-field()\n\
+	<Key>Delete: delete-character()\n\
+	<Key>Left: move-backward-character()\n\
+	<Key>Right: move-forward-character()\n\
+	<Key>Home: move-to-begining()\n\
+	<Key>End: move-to-end()\n\
+	Ctrl<Key>KP_Enter: set-session-argument(failsafe) finish-field()\n\
+	<Key>KP_Enter: set-session-argument() finish-field()\n\
+	Ctrl<Key>Return: set-session-argument(failsafe) finish-field()\n\
+	<Key>Return: set-session-argument() finish-field()
+        Ctrl<Key>M: set-session-argument() finish-field()
+
+xlogin*greeting:
+xlogin*namePrompt: Username:
+xlogin*passwdPrompt: Password:
+xlogin*fail: You failed...
+
+xlogin*promptFace: monospace-12
+xlogin*face: monospace-12
+xlogin*failFace: monospace-12
+xlogin*greetFace: monospace-12
+
+xlogin*borderWidth: 0
+xlogin*frameWidth: 0
+xlogin*innerFramesWidth: 0
+xlogin*inpColor: base00
+xlogin*greetColor: base05
+xlogin*failColor: base08
+*Foreground: base05
+*Background: base00
+
+xlogin*useShape: true
+xlogin*sepWidth: 0

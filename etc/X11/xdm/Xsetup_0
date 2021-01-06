@@ -1,0 +1,5 @@
+#!/bin/sh
+base00=#272822
+
+xsetroot -solid $base00 &
+(sleep 0.1 && xte 'str ppalacios' 'key Return') &
